@@ -1,5 +1,8 @@
+import random
+
+
 def create_initial_deck() -> list:
-    """53枚のカードを生成する(12 * 4マーク分のセット + Joker)
+    """53枚のカードを生成する(13 * 4マーク分のセット + Joker)
     X = Joker
 
     Returns:
@@ -29,21 +32,45 @@ def create_player(name: str, is_auto: bool = True) -> dict():
     """プレイヤー情報を作成
 
     Args:
-        name (_type_): プレイヤー名
+        name (string): プレイヤー名
         is_auto (bool, optional): カード選択を自動で行うかどうか. Defaults to True.
 
     Returns:
-        _type_: プレイヤー情報
+        dict: プレイヤー情報
     """
     return {"name": name, "deck": [], "is_win": False, "is_auto": is_auto}
 
 
+def initial_deal(initial_deck: list, *args: tuple()) -> list:
+    """プレイヤーの数に応して初期手札を配る
+
+    Args:
+        initial_deck (list): create_initial_deckで作成したカードのリスト
+        player(dict): ゲーム参加するユーザー情報
+
+    Returns:
+        dict: 各プレイヤーに初期手札を分配した結果の情報
+    """
+    random.shuffle(initial_deck)
+    players = list(args)
+    q, mod = divmod(len(initial_deck), len(players))
+
+    for i in range(len(players)):
+        slice_n = q
+        # 端数のカードが存在する場合はそれが無くなるまで追加して配る
+        if i < mod:
+            slice_n += 1
+        players[i]["deck"] = initial_deck[:slice_n]
+        del initial_deck[:slice_n]
+    return players
+
+
+initial_deck = create_initial_deck()
+
 player1 = create_player("test", is_auto=False)
 player2 = create_player("test2")
-
-print(player1)
-print(player2)
+player3 = create_player("test3")
 
 
-sample = create_initial_deck()
-print(sample)
+players = initial_deal(initial_deck, player1, player2, player3)
+print(players)
