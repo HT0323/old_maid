@@ -28,7 +28,7 @@ def create_initial_deck() -> list:
     return initial_deck
 
 
-def create_player(name: str, is_auto: bool = True) -> dict():
+def create_player(name: str, is_auto: bool = True) -> dict:
     """プレイヤー情報を作成
 
     Args:
@@ -46,7 +46,7 @@ def initial_deal(initial_deck: list, *args: tuple()) -> list:
 
     Args:
         initial_deck (list): create_initial_deckで作成したカードのリスト
-        player(dict): ゲーム参加するユーザー情報
+        player (dict): ゲーム参加するユーザー情報
 
     Returns:
         dict: 各プレイヤーに初期手札を分配した結果の情報
@@ -73,4 +73,33 @@ player3 = create_player("test3")
 
 
 players = initial_deal(initial_deck, player1, player2, player3)
-print(players)
+deck1 = players[0]["deck"]
+deck2 = players[1]["deck"]
+deck3 = players[2]["deck"]
+
+
+def initial_putdown(deck: list) -> list:
+    """初期手札を重複しているカードを捨てる
+
+    Args:
+        deck (list): 1プレイヤーの手札
+
+    Returns:
+        list: 重複削除後の手札
+    """
+    while len(set(deck)) != len(deck):
+        popped_card = deck.pop(0)
+        if popped_card in deck:
+            # 同じ数字を持っているペアが存在する場合
+            deck.remove(popped_card)
+        else:
+            # 同じ数字を持っているペアが存在しない場合
+            deck.append(popped_card)
+    return deck
+
+
+initial_putdown(deck1)
+initial_putdown(deck2)
+initial_putdown(deck3)
+
+print(deck1, deck2, deck3)
