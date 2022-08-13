@@ -25,5 +25,25 @@ def create_initial_deck() -> list:
     return initial_deck
 
 
+def create_player(name: str, is_auto: bool = True) -> dict():
+    """プレイヤー情報を作成
+
+    Args:
+        name (_type_): プレイヤー名
+        is_auto (bool, optional): カード選択を自動で行うかどうか. Defaults to True.
+
+    Returns:
+        _type_: プレイヤー情報
+    """
+    return {"name": name, "deck": [], "is_win": False, "is_auto": is_auto}
+
+
+player1 = create_player("test", is_auto=False)
+player2 = create_player("test2")
+
+print(player1)
+print(player2)
+
+
 sample = create_initial_deck()
 print(sample)
