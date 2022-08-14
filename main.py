@@ -149,33 +149,54 @@ def select(passer: dict, taker: dict) -> str:
     return selected_card
 
 
-# initial_deck = create_initial_deck()
-# player1 = create_player("test", is_auto=False)
-# player2 = create_player("test2")
-# player3 = create_player("test3")
-# players = initial_deal(initial_deck, player1, player2, player3)
-# for i in range(len(players)):
-#     players[i]["deck"] = initial_putdown(players[i]["deck"])
-# print(player1["deck"])
-# print(player2["deck"])
-# print(player3["deck"])
+def putdown_or_add(selected_card: str, taker: dict):
+    """引いたカードを手持ちに加えるかペアを捨てるかの判定
+
+    Args:
+        selected_card (str): 引いたカードの番号
+        taker (dict): カードを引いたプレイヤー情報
+    """
+
+    try:
+        # 引いたカードが手持ちに存在する場合ペアのカードを捨てる
+        taker["deck"].remove(selected_card)
+    except ValueError:
+        # 引いたカードが手持ちに存在しない場合手持ちに加える
+        taker["deck"].append(selected_card)
+
+    # initial_deck = create_initial_deck()
+    # player1 = create_player("test", is_auto=False)
+    # player2 = create_player("test2")
+    # player3 = create_player("test3")
+    # players = initial_deal(initial_deck, player1, player2, player3)
+    # for i in range(len(players)):
+    #     players[i]["deck"] = initial_putdown(players[i]["deck"])
+    # print(player1["deck"])
+    # print(player2["deck"])
+    # print(player3["deck"])
+
+    # players = ["Green", "Yellow", "Red"]
+
+    # passer_i = 0
+    # taker_i = 1
+
+    # passer_i, taker_i = create_turn_index(passer_i, taker_i, players)
+    # print(f"{players[passer_i]} ==> {players[taker_i]}")
+
+    # passer_i, taker_i = create_turn_index(passer_i, taker_i, players)
+    # print(f"{players[passer_i]} ==> {players[taker_i]}")
+
+    # passer = create_player("A")
+    # taker = create_player("B", is_auto=False)
+
+    # passer["deck"] = ["K", "9", "4"]
+
+    # select(passer, taker)
 
 
-# players = ["Green", "Yellow", "Red"]
+taker = create_player("A")
+taker["deck"] = ["J", "3", "6"]
+selected_card = "K"
+putdown_or_add(selected_card, taker)
 
-# passer_i = 0
-# taker_i = 1
-
-# passer_i, taker_i = create_turn_index(passer_i, taker_i, players)
-# print(f"{players[passer_i]} ==> {players[taker_i]}")
-
-# passer_i, taker_i = create_turn_index(passer_i, taker_i, players)
-# print(f"{players[passer_i]} ==> {players[taker_i]}")
-
-
-passer = create_player("A")
-taker = create_player("B", is_auto=False)
-
-passer["deck"] = ["K", "9", "4"]
-
-select(passer, taker)
+print(taker["deck"])
