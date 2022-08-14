@@ -108,25 +108,74 @@ def create_turn_index(passer_i: int, taker_i: int, players: list) -> tuple():
     return passer_i, taker_i
 
 
-initial_deck = create_initial_deck()
-player1 = create_player("test", is_auto=False)
-player2 = create_player("test2")
-player3 = create_player("test3")
-players = initial_deal(initial_deck, player1, player2, player3)
-for i in range(len(players)):
-    players[i]["deck"] = initial_putdown(players[i]["deck"])
-print(player1["deck"])
-print(player2["deck"])
-print(player3["deck"])
+def select(passer: dict, taker: dict) -> str:
+    """カードを選択も若しくは自動で引く
+
+    Args:
+        passer (dict): カードを引かれるプレイヤー情報
+        taker (dict): カードを引くプレイヤー情報
+
+    Raises:
+        IndexError: 選択できるカードの範囲外を選択外を入力した場合
+        ValueError: 数字以外を入力した場合
+
+    Returns:
+        str: 引いたカードの番号
+    """
+    if taker["is_auto"]:
+        # 自動で引くカードを選択
+        select_index = random.randrange(len(passer["deck"]))
+    else:
+        # 手動で引くカードを選択
+        while True:
+            text = ""
+            for n in range(len(passer["deck"])):
+                text += f"[{n+1}]"
+            select_index = input(f"Select card of {passer['name']} from {text}: ")
+
+            try:
+                select_index = int(select_index) - 1
+                if select_index < 0 or select_index >= len(passer["deck"]):
+                    raise IndexError()
+            except ValueError:
+                print("\t*please input integer!")
+            except IndexError:
+                print("\t*please input right number!")
+            else:
+                break
+        print(f"\tYou chose {select_index + 1}.")
+
+    selected_card = passer["deck"].pop(select_index)
+    return selected_card
 
 
-players = ["Green", "Yellow", "Red"]
+# initial_deck = create_initial_deck()
+# player1 = create_player("test", is_auto=False)
+# player2 = create_player("test2")
+# player3 = create_player("test3")
+# players = initial_deal(initial_deck, player1, player2, player3)
+# for i in range(len(players)):
+#     players[i]["deck"] = initial_putdown(players[i]["deck"])
+# print(player1["deck"])
+# print(player2["deck"])
+# print(player3["deck"])
 
-passer_i = 0
-taker_i = 1
 
-passer_i, taker_i = create_turn_index(passer_i, taker_i, players)
-print(f"{players[passer_i]} ==> {players[taker_i]}")
+# players = ["Green", "Yellow", "Red"]
 
-passer_i, taker_i = create_turn_index(passer_i, taker_i, players)
-print(f"{players[passer_i]} ==> {players[taker_i]}")
+# passer_i = 0
+# taker_i = 1
+
+# passer_i, taker_i = create_turn_index(passer_i, taker_i, players)
+# print(f"{players[passer_i]} ==> {players[taker_i]}")
+
+# passer_i, taker_i = create_turn_index(passer_i, taker_i, players)
+# print(f"{players[passer_i]} ==> {players[taker_i]}")
+
+
+passer = create_player("A")
+taker = create_player("B", is_auto=False)
+
+passer["deck"] = ["K", "9", "4"]
+
+select(passer, taker)
