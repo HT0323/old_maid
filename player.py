@@ -14,7 +14,3 @@ class Player:
 
     def __repr__(self):
         return f"name={self.name}\ndeck={self.deck}\nis_win={self.is_win}\nis_auto={self.is_auto}"
-
-
-p = Player("name")
-print(p)

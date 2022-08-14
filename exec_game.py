@@ -93,7 +93,7 @@ class ExecGame:
             loop += 1
             print(f"\n --- TURN {loop} ---")
 
-            passer_i, taker_i = self.create_turn_index(passer_i, taker_i, self.players)
+            passer_i, taker_i = self.create_turn_index(passer_i, taker_i)
             selected_card = self.select(self.players[passer_i], self.players[taker_i])
             self.putdown_or_add(selected_card, self.players[taker_i])
             print("\tCurrent card number: ", end="")
