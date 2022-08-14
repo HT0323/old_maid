@@ -49,7 +49,7 @@ class Dealer:
             # 端数のカードが存在する場合はそれが無くなるまで追加して配る
             if i < mod:
                 slice_n += 1
-            players[i]["deck"] = self.initial_deck[:slice_n]
+            players[i].deck = self.initial_deck[:slice_n]
             del self.initial_deck[:slice_n]
         return players
 
